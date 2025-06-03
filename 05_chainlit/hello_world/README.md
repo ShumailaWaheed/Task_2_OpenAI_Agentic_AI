@@ -1,121 +1,110 @@
-# Chainlit Gemini Chatbot
+# 🤖 Gemini Chatbot with Rate Limiting and Error Handling
 
-A simple chatbot built with Chainlit that uses Google’s Gemini API for responses.
-
----
-
-## 📋 Prerequisites
-
-1. **Python 3.8+** installed  
-2. **Chainlit** package  
-3. **httpx** package  
-4. **python-dotenv** package  
+This project implements a chatbot using Google's Gemini AI models with Chainlit, featuring rate limiting, dynamic model switching, and error handling. It ensures responsible API usage and a smooth user experience even during API rate limit or quota errors.
 
 ---
 
-## ⚙️ Installation
+## Features 🚀
 
-1. Clone this repository or copy the project files into a new folder.  
-2. Open a terminal/command prompt and navigate to the project folder.
+✅ **Chainlit Integration**: Seamless integration with Chainlit for interactive chat.  
+✅ **Google Gemini AI**: Leverages powerful Gemini models for natural language understanding and response generation.  
+✅ **Rate Limiting**: Implements per-minute and daily rate limits with exponential backoff to prevent hitting API quotas.  
+✅ **Model Switching**: Automatically switches to alternative Gemini models if the preferred model is unavailable.  
+✅ **Error Handling**: Detects and manages errors like rate limit exceedance and model unavailability with informative user feedback.  
+✅ **Environment Variable Support**: Loads the Gemini API key from a `.env` file for secure key management.
 
-3. (Recommended) Create a virtual environment and activate it:
-   ```bash
-   python -m venv .venv
-   .\.venv\Scripts\activate    # Windows
-   source .venv/bin/activate   # macOS/Linux
+---
+
+## Prerequisites 🛠️
+
+- Python 3.8+
+- A Google Gemini API Key
+- Node.js & npm (optional, if using Chainlit frontend)
+
+---
+
+## Setup ⚙️
+
+1️⃣ **Clone the repository:**
+```bash
+git clone https://github.com/yourusername/gemini-chatbot.git
+cd gemini-chatbot
 ````
 
-4. Install dependencies:
+2️⃣ **Create a `.env` file:**
 
-   ```bash
-   pip install chainlit httpx python-dotenv
-   ```
-
----
-
-## 🔑 Environment Variables
-
-1. Obtain your **GEMINI\_API\_KEY** and **GEMINI\_API\_URL** from Google Cloud.
-2. In the project folder, create a file named `.env`.
-3. Add the following lines to `.env`:
-
-   ```
-   GEMINI_API_KEY=YOUR_API_KEY_HERE
-   GEMINI_API_URL=YOUR_API_URL_HERE
-   ```
-
-   Replace `YOUR_API_KEY_HERE` and `YOUR_API_URL_HERE` with your actual values.
-
----
-
-## 📂 File Structure
-
+```env
+GEMINI_API_KEY=your_google_gemini_api_key_here
 ```
-.
-├── .env                 # Contains GEMINI_API_KEY and GEMINI_API_URL
-├── chatbot.py           # Main Chainlit chatbot script
-└── README.md            # This file
+
+3️⃣ **Install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+4️⃣ **Run the Chainlit app:**
+
+```bash
+chainlit run main.py
 ```
 
 ---
 
-## 🚀 Usage
+## Usage 📝
 
-1. Ensure your virtual environment is activated (if used).
-2. Run the Chainlit app:
-
-   ```bash
-   chainlit run chatbot.py
-   ```
-3. Chainlit will start a local server (default at `http://localhost:8000`).
-4. Open your browser and navigate to the provided URL to interact with the chatbot.
-5. Type a message in the chat interface. The bot will send your input to Gemini and display the response.
+* When the chatbot starts, it checks available Gemini models.
+* Automatically chooses the best available Gemini model.
+* Handles per-minute and daily rate limits with smart retries.
+* Provides user-friendly error messages when rate limits are hit or models are unavailable.
+* Offers fallback model switching if the preferred model is not found.
 
 ---
 
-## 🤖 How It Works
-
-* **dotenv** loads `GEMINI_API_KEY` and `GEMINI_API_URL` from `.env`.
-
-* On each incoming message, the `@cl.on_message` handler:
-
-  1. Reads the user’s input (`message.content`).
-  2. Sends an HTTP POST request to the Gemini API endpoint (`GEMINI_API_URL`) with the user’s text.
-  3. Parses the JSON response to extract the generated reply.
-  4. Sends the reply back to the chat interface.
-
-* If the API URL is missing, the bot returns an error message in chat.
-
----
-
-## ⚠️ Error Handling
-
-* If there is an issue contacting Gemini (network error, invalid key, etc.), the bot will catch the exception and display:
-
-  ```
-  Error contacting Gemini API: <error details>
-  ```
-
----
-
-## 📈 Customization
-
-* **GEMINI\_API\_URL**: Change this to the correct REST endpoint for your Gemini deployment if needed.
-* **Request Payload**: Modify `payload` if the API schema changes or additional parameters are required.
-* **Headers**: Adjust headers for authentication or content type if necessary.
-
----
-
-## 📚 References
-
-* [Chainlit Documentation](https://chainlit.dev)
-* [httpx Documentation](https://www.python-httpx.org)
-* [python-dotenv Documentation](https://github.com/theskumar/python-dotenv)
-* [Google Vertex AI Gemini Docs](https://cloud.google.com/vertex-ai)
-
----
-
-**Enjoy chatting with Gemini via Chainlit!**
+## Project Structure 📁
 
 ```
+gemini-chatbot/
+├── main.py           # Main Python script with Chainlit and Gemini integration
+├── .env              # Environment variable file for your API key
+├── requirements.txt  # Python dependencies
+└── README.md         # Project documentation
+```
+
+---
+
+## Customization ✨
+
+* **Rate Limiting**: Adjust `max_requests_per_minute` and `max_requests_per_day` in the `RateLimiter` class to suit your usage patterns.
+* **Model Preferences**: Change the preferred model names in the script as needed.
+* **Error Messages**: Customize error handling messages in the `main.py` script.
+
+---
+
+## Contributing 🤝
+
+Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
+
+---
+
+## License 📄
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Author ✍️
+
+**Shumaila Waheed**
+
+---
+
+## Contact 📬
+
+For questions or support, please reach out via GitHub Issues.
+
+---
+
+Happy Coding! 🎉
+
 ```
